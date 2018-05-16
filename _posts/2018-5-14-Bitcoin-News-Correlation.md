@@ -27,11 +27,11 @@ In the absence of data, it would be logical to assume that the price of bitcoin 
 
 ## Approach
 
-At a high level, here was the approach.
+At a high level, below is the approach. 
 
 ![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/approach.jpg?raw=true "Logo Title Text 1")
 
-Here is the script to get the headlines
+
 
 ```python
 # import libraries
