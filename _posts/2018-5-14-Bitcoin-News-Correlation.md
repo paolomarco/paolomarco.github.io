@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Analyzing the correlation between daily Bitcoin returns & news headline sentiment using Python
+title: Analyzing the correlation between daily Bitcoin returns & crypto using Python
 ---
 
 ## What is this about? 
@@ -26,6 +26,10 @@ In the absence of data, it would be logical to assume that the price of bitcoin 
 ![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/line_chart_price_sentiment.png?raw=true "Logo Title Text 1")
 
 ## Approach
+
+At a high level, here was the approach.
+
+![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/approach.jpg?raw=true "Logo Title Text 1")
 
 Here is the script to get the headlines
 
