@@ -43,7 +43,7 @@ import requests
 import csv
 
 # specify the url
-quote_page = "https://www.coindesk.com/"
+quote_page = "www.some bitcoin news site.com" 
 #  request page
 page = requests.get(quote_page)
 # parse html with beautifulsoup
