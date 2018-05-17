@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Analyzing the correlation between daily Bitcoin returns & crypto using Python
+title: Analyzing the correlation between daily Bitcoin returns & crypto news using Python
 ---
 
 ### What is this about? 
