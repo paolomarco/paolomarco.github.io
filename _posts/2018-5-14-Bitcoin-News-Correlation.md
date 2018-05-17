@@ -11,11 +11,12 @@ Chances are you've heard about Bitcoin. Doesn't matter if you are into day tradi
 If you follow along with the media, it's clear that just like the price of bitcoin, the news are a bit of a mixed bag. There are a lot of positive headlines talking about innovation, social impact, and positive response from goverments. There are also __A LOT__ of negative headlines about scam ICOs, bankrupt exchanges, sell-offs, and raids on illegal mining operations. 
 
 Going back to the question: Are the two related? This post will attempt to answer that question. It will also cover how Python can be used to:
-    * Scrape the web for Bitcoin news headlines
-    * Train a sentiment classifier using the [Naive Bayes Algorithm](https://www.nltk.org/book/ch06.html) to determine sentiment
-    * Ping a Bitcoin price API to calculate daily returns  
-    * Calculate a correlation between daily returns & the % of daily crypto headlines classified as positive
-    * Automate the analysis with [Launchd](http://www.launchd.info/)
+
+* Scrape the web for Bitcoin news headlines
+* Train a sentiment classifier using the [Naive Bayes Algorithm](https://www.nltk.org/book/ch06.html) to determine sentiment
+* Ping a Bitcoin price API to calculate daily returns  
+* Calculate a correlation between daily returns & the % of daily crypto headlines classified as positive
+* Automate the analysis with [Launchd](http://www.launchd.info/)
 
 ### Are the two correlated?
 In the absence of data, it would be logical to assume that the price of bitcoin would to some degree be affected by the sentiment of news headlines. In the presence of data, the statistical correlation between the daily price return & the % of daily crypto headlines classified as positive turns out to be _*0.52*_. While not a perfect linear relationship, this can be considered fairly strong. The below line chart shows this visually. The green line represents the % of daily headlines classified as positive (i.e. if 2 headlines appear on a given day & 1 is classfied as positive by the sentiment classifier, it would be a 0.5 for that day). The blue line represents daily returns calculated as: *(Today's price - Yesterday's price) / Yesterday's price*. 
