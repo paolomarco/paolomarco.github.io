@@ -178,7 +178,7 @@ df["classifications"] = classifications
 # write to new csv onto desktop
 df.to_csv("~/headlines_classified.csv", index = False)
 ```
-### Calculating Bitcoin price returns
+#### _Calculating Bitcoin price returns_
 The code below the API call to pull down Bitcoin daily prices from which returns can be calculated. Just like the headline classifier script, this was scheduled to run once a day.
 ```python
 import requests
@@ -273,7 +273,7 @@ for ax in fig.axes:
     plt.xticks(rotation=45)
 plt.show()
 ```
-#### Sources
+#### _Sources_
 
 [https://www.twilio.com/blog/2017/09/sentiment-analysis-python-messy-data-nltk.html](https://www.twilio.com/blog/2017/09/sentiment-analysis-python-messy-data-nltk.html)
 [https://www.kaggle.com/ngyptr/python-nltk-sentiment-analysis?scriptVersionId=904608/code](https://www.kaggle.com/ngyptr/python-nltk-sentiment-analysis?scriptVersionId=904608/code)
