@@ -1,10 +1,9 @@
 ---
 layout: post
-title: Analyzing the correlation between daily Bitcoin returns & crypto using Python & sentiment classification
+title: Analyzing the correlation between daily Bitcoin returns & crypto using Python
 ---
 
 ### What is this about? 
-
 The headline says it all. It started with a question: Is the price of bitcoin correlated to sentiment of news headlines about bitcoin and other crytocurrencies. 
 
 Chances are you've heard about Bitcoin. Doesn't matter if you are into day trading or a HODLer for life, you'll have noticed that the price of Bitcoin is volatile. In 2017, the price of Bitcoin has risen by more than 1300% while YTD it's down -36%. Price swings of 15-20% are a fairly common occurence. 
@@ -12,26 +11,26 @@ Chances are you've heard about Bitcoin. Doesn't matter if you are into day tradi
 If you follow along with the media, it's clear that just like the price of bitcoin, the news are a bit of a mixed bag. There are a lot of positive headlines talking about innovation, social impact, and positive response from goverments. There are also __A LOT__ of negative headlines about scam ICOs, bankrupt exchanges, sell-offs, and raids on illegal mining operations. 
 
 Going back to the question: Are the two related? This post will attempt to answer that question. It will also cover how Python can be used to:
-
-* Scrape the web for Bitcoin news headlines
-* Train a sentiment classifier using the Naive Bayes Algorithm to determine sentiment
-* Ping a Bitcoin price API to calculate daily returns  
-* Calculate a correlation between daily returns & the % of daily crypto headlines classified as positive
-* Automate the analysis with [Launchd](http://www.launchd.info/)
+    * Scrape the web for Bitcoin news headlines
+    * Train a sentiment classifier using the [Naive Bayes Algorithm](https://www.nltk.org/book/ch06.html) to determine sentiment
+    * Ping a Bitcoin price API to calculate daily returns  
+    * Calculate a correlation between daily returns & the % of daily crypto headlines classified as positive
+    * Automate the analysis with [Launchd](http://www.launchd.info/)
 
 ### Are the two correlated?
-In the absence of data, it would be logical to assume that the price of bitcoin would to some degree be affected by the sentiment of news headlines. In the presence of data, the statistical correlation between the daily price return & the % of daily crypto headlines classified as positive turns out to be __0.52__. While not a perfect linear relationship, this can be considered fairly strong. The below line chart shows this visually. The green line represents the % of daily headlines classified as positive (i.e. if 2 headlines appear on a given day & 1 is classfied as positive by the sentiment classifier, it would be a 0.5 for that day). The blue line represents daily returns calculated as: *(Today's price - Yesterday's price) / Yesterday's price*. 
+In the absence of data, it would be logical to assume that the price of bitcoin would to some degree be affected by the sentiment of news headlines. In the presence of data, the statistical correlation between the daily price return & the % of daily crypto headlines classified as positive turns out to be _*0.52*_. While not a perfect linear relationship, this can be considered fairly strong. The below line chart shows this visually. The green line represents the % of daily headlines classified as positive (i.e. if 2 headlines appear on a given day & 1 is classfied as positive by the sentiment classifier, it would be a 0.5 for that day). The blue line represents daily returns calculated as: *(Today's price - Yesterday's price) / Yesterday's price*. 
 
 ![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/linechart_sentiment_price.png?raw=true "Logo Title Text 1")
 
-## Approach
+It would be interesting to do some further digging on if/how this could be used to make predictions about the price of future bitcoin. In addition, it would be interesting to explore what other variables could be included in a predictive model along with headline sentiment. 
+
+### Approach
 The diagram below shows the approach taken at a high level. The details and code to go along with each component of the flow chart are below. 
 
 ![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/approach%202.jpg?raw=true "Logo Title Text 1")
 
-### _Headline web scraper_
-The below code block was used to parse a major crypto news website and store the individual headlines in a local .csv file. It relies on an awesome Python package called BeautifulSoup which makes it easy to parse HTML documents and extract data. Using [Launchd](http://www.launchd.info/), this script was scheduled to run once a hour in the background (even when user is logged off from the computer). Depending on the HTML structure of the site, the code will have to be adjusted. 
-
+#### _Headline web scraper_
+The below code block was used to parse a major crypto news website & store the individual headlines in a local .csv file. It relies on an awesome Python package called BeautifulSoup which makes it easy to parse HTML documents & extract data. Using [Launchd](http://www.launchd.info/), this script was scheduled to run once a hour in the background (even when user is logged off from the computer). Depending on the HTML structure of the site, the code will have to be adjusted. 
 ```python
 # import required libraries
 from bs4 import BeautifulSoup
@@ -84,9 +83,8 @@ for headline in headlines_list:
 with open('~/headlines.csv', 'w') as f: #insert correct directory 
     pd.DataFrame(existingLines).to_csv(f,header=False,index=False)
 ```
-### _Training a Sentiment Classifier_
-The next block of code involves training a supervised sentiment classifier (Naive Bayes), which can then be used to classify new incoming headlines. Supervised means that the model is trained using a dataset where both the input and outcome is known (headline text & correct positive/negative classification). The Naive Bayes classifier had an accuracy of 75% which was acceptable. The model was then stored as a file object using [pickle](https://docs.python.org/2/library/pickle.html). This is important because it will need to be re-loaded once the headline web scraper comes back with new headlines to be classified. 
-
+#### _Training a Sentiment Classifier_
+The next block of code involves training a supervised sentiment classifier (Naive Bayes), which can then be used to classify new incoming headlines. Supervised means that the model is trained using a dataset where both the input & outcome is known (headline text & correct positive/negative classification). The Naive Bayes classifier had an accuracy of 75% which was acceptable. The model was then stored as a file object using [pickle](https://docs.python.org/2/library/pickle.html). This is important because it will need to be re-loaded once the headline web scraper comes back with new headlines to be classified. 
 ```python
 import nltk
 from nltk.classify import NaiveBayesClassifier
@@ -116,7 +114,7 @@ for i in training_2:
         print("duplicate")
  
  classifier_2 = NaiveBayesClassifier.train(training_2)
- 
+ #calculate accuracy
 from nltk.classify.util import accuracy
 print(accuracy(classifier_2, test_2))
 
@@ -140,8 +138,8 @@ pickle.dump(classifier_2,fileObject)
 # Close the fileObject
 fileObject.close()
 ```
-### _Classifying New Headlines_
-The trained classifier can now be used to classify any incoming new headlines. The code below does just that. Again, Using [Launchd](http://www.launchd.info/) was used to schedule the script to once, at the end of every day. 
+#### _Classifying New Headlines_
+Using pickle, the trained classifier can now reloaded & used to classify new incoming headlines. The code below does just that. Again, [Launchd](http://www.launchd.info/) was used to schedule the script to run once a day. 
 ```python
 # import packages
 import pickle
@@ -181,7 +179,7 @@ df["classifications"] = classifications
 df.to_csv("~/headlines_classified.csv", index = False)
 ```
 ### Calculating Bitcoin price returns
-The code below is used to make a call to a API and pull down Bitcoin daily prices from which returns can be calculated. Just like the headline classifier script, this was scheduled to run once a day.
+The code below the API call to pull down Bitcoin daily prices from which returns can be calculated. Just like the headline classifier script, this was scheduled to run once a day.
 ```python
 import requests
 import json
@@ -229,8 +227,8 @@ with open(r'~/bitcoin_daily_price.csv', 'a') as f:
     writer = csv.writer(f)
     writer.writerow(list_to_append)
 ```
-### Calculating the correlation between sentiment & price return
-Now that both classified headlines and daily price returns are available, a correlation can be calculated. The % of daily headlines classified as positive is used as the sentiment proxy. The code below also generates the line chart above to show both variables visually. 
+#### Calculating the correlation between sentiment & price return
+Now that both classified headlines & daily price returns are available, a correlation can be calculated. The % of daily headlines classified as positive is used as the sentiment proxy. The code below also generates the line chart above to show both variables visually. 
 ```python
 # import dependencies
 import pandas as pd
