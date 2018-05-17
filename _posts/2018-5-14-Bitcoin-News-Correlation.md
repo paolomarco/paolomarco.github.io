@@ -21,15 +21,15 @@ Going back to the question: Are the two related? This post will attempt to answe
 
 ## Are the two correlated?
 
-In the absence of data, it would be logical to assume that the price of bitcoin would to some degree be affected by the sentiment of news headlines. In the presense of data, the statistical correlation between the daily price return & the % of daily crypto headlines classified as positive turns out to be __0.54__. While not a perfect linear relationship, this can be considered fairly strong. The below line chart shows this visually. The green line represents the % of daily headlines classified as positive (i.e. if 2 headlines appear on a given day & 1 is classfied as positive by the sentiment classifier, it would be a 0.5 for that day). The blue line represents daily returns calculated as: *(Today's price - Yesterday's price) / Yesterday's price*. 
+In the absence of data, it would be logical to assume that the price of bitcoin would to some degree be affected by the sentiment of news headlines. In the presence of data, the statistical correlation between the daily price return & the % of daily crypto headlines classified as positive turns out to be __0.52__. While not a perfect linear relationship, this can be considered fairly strong. The below line chart shows this visually. The green line represents the % of daily headlines classified as positive (i.e. if 2 headlines appear on a given day & 1 is classfied as positive by the sentiment classifier, it would be a 0.5 for that day). The blue line represents daily returns calculated as: *(Today's price - Yesterday's price) / Yesterday's price*. 
 
-![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/line_chart_price_sentiment.png?raw=true "Logo Title Text 1")
+![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/linechart_sentiment_price.png?raw=true "Logo Title Text 1")
 
 ## Approach
 
 At a high level, below is the approach. 
 
-![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/approach.jpg?raw=true "Logo Title Text 1")
+![alt text](https://github.com/paolomarco/paolomarco.github.io/blob/master/images/approach%202.jpg?raw=true "Logo Title Text 1")
 
 
 
